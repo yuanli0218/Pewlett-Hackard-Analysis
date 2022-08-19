@@ -16,4 +16,8 @@ The purpose of this analysis is to find the information of two groups: 1) title 
 
 ## Summary
 - The company is about to have a shortage of Senior Engineer and Senior Staff (both around 25000 to be retired)
-- Hope they can provide mentorship to those employees with mentorship eligibility
+- To answer the second question, I compared two things
+1. the number of retiring staff group by department and titles
+2. the number of mentorship eligible staff group by department and titles
+3. JOIN the above two to see if there's any situation where the first number is less than the second number for any department and title combination
+4. The answer turns out to be no, which means there are enough qualified, retirement-ready employees in the departments to mentor the next generation of Pewlett Hackard employees.

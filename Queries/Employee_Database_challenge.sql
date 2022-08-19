@@ -27,7 +27,7 @@ SELECT COUNT(emp_no), titles FROM unique_titles
 GROUP BY titles
 ORDER BY COUNT(emp_no) DESC
 
-/* Deliverable 2*/
+/* Deliverable 2 */
 SELECT DISTINCT ON (emp_no)
 	emp.emp_no,
 	emp.first_name,
@@ -43,4 +43,27 @@ LEFT JOIN titles tit ON emp.emp_no = tit.emp_no
 WHERE de.to_date = '9999-01-01' AND emp.birth_date BETWEEN '1965-01-01' AND '1965-12-31'
 ORDER BY emp.emp_no;
 
-SELECT * FROM mentorship_eligibility
+SELECT * FROM mentorship_eligibility;
+
+
+/* Deliverable 3 bonus */
+WITH 
+retiring AS (
+	SELECT de.dept_no, rt.titles, COUNT(rt.emp_no) AS retiring_count
+	FROM retirement_titles rt
+	JOIN dept_emp de ON rt.emp_no = de.emp_no
+	WHERE rt.to_date = '9999-01-01'
+	GROUP BY de.dept_no, rt.titles
+		),
+	
+mentor AS (
+	SELECT de.dept_no, me.titles, COUNT(me.emp_no) AS mentorship_count
+	FROM mentorship_eligibility me
+	JOIN dept_emp de ON me.emp_no = de.emp_no
+	GROUP BY de.dept_no, me.titles
+		)
+	
+SELECT *, retiring_count - mentorship_count AS retiring_more_than_mentorship
+FROM retiring r 
+LEFT JOIN mentor m ON r.dept_no = m.dept_no AND r.titles = m.titles
+WHERE retiring_count - mentorship_count <= 0
